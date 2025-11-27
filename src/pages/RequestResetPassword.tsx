@@ -25,7 +25,7 @@ export default function RequestResetPassword() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {  // Use normalized email
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${window.location.origin}/reset-password?email=${encodeURIComponent(normalizedEmail)}`,
       });
 
       if (error) {

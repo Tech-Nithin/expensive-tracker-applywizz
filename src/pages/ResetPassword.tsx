@@ -615,6 +615,12 @@ export default function ResetPassword() {
   useEffect(() => {
     const tokenHash = searchParams.get('token_hash');
     const type = searchParams.get('type');
+    const emailParam = searchParams.get('email'); // Get email from URL params
+    
+    // If email is in URL params, auto-fill it
+    if (emailParam) {
+      setEmail(decodeURIComponent(emailParam));
+    }
     
     // If magic link parameters exist, auto-verify by setting authenticated state
     if (tokenHash && type === 'signup') {
@@ -630,7 +636,7 @@ export default function ResetPassword() {
       
       if (session) {
         // User is already authenticated via magic link
-        if (session.user?.email) {
+        if (session.user?.email && !email) { // Only set if email isn't already set
           setEmail(session.user.email);
         }
         toast.success("Please set your new password");
@@ -715,6 +721,7 @@ export default function ResetPassword() {
                 placeholder="user@applywizz.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                readOnly={!!searchParams.get('email')} // Make readonly if email came from URL
               />
             </div>
 

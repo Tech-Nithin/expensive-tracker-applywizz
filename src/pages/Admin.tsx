@@ -98,7 +98,7 @@ export default function Admin() {
             name,
             role
           },
-          emailRedirectTo: `${window.location.origin}/reset-password`
+          emailRedirectTo: `${window.location.origin}/reset-password?email=${encodeURIComponent(normalizedEmail)}`
         }
       });
 
